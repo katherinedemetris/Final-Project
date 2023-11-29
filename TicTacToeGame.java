@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Random;
 
 public class TicTacToeGame {
@@ -6,7 +7,7 @@ public class TicTacToeGame {
     private char currentPlayer;
 
     // Constructor
-    public TicTacToeGame(int boardSize) { //init game with specific baord size and drawing of board, and that the first playr is O
+    public TicTacToeGame(int boardSize) { //init game with specific board size and drawing of board, and that the first playr is O
         this.BOARD_SIZE = boardSize;
         this.board = new char[BOARD_SIZE][BOARD_SIZE];
         this.currentPlayer = '0';
@@ -16,6 +17,7 @@ public class TicTacToeGame {
     public char[][] getBoard() { //return current version of the board
         return board;
     }
+
     public void setBoard(char [][] board) {
         this.board = board;
     }
@@ -40,19 +42,39 @@ public class TicTacToeGame {
     }
 
     // make game board using a loop
-    public void drawBoard() { //draw current state of baord
+    public void drawBoard() { //draw current state of board
         StdDraw.setPenRadius(0.01);
         StdDraw.setPenColor(StdDraw.BLACK);
 
+
         //  horizontal lines
-        for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int i = 0; i <= BOARD_SIZE; i ++) {
             StdDraw.line(0.0, i, BOARD_SIZE, i);
         }
 
         //  vertical lines
-        for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int i = 0; i <= BOARD_SIZE; i ++) {
             StdDraw.line(i, 0.0, i, BOARD_SIZE);
         }
+
+        // printing out the title and the score board on the screen
+        int compWins = 0;
+        int playerWins = 0;
+        int gamesPlayed = 0;
+
+        Font font = new Font("Arial", Font.BOLD, 60);
+        StdDraw.setFont(font);
+        StdDraw.text(1.5, 3.5, "TIC TAC TOE"); // game title
+
+        Font font2 = new Font("Arial", Font.BOLD, 15); // scoreboard title
+        StdDraw.setFont(font2);
+        StdDraw.text(-0.25, -0.25, "SCOREBOARD");
+
+        Font font3 = new Font("Arial", Font.PLAIN, 10); // wins and games played
+        StdDraw.setFont(font3);
+        StdDraw.text(-0.35, -0.45, "Computer Wins: " + compWins);
+        StdDraw.text(-0.35, -0.65, "Player Wins:      " + playerWins);
+        StdDraw.text(-0.35, -0.85, "Games Played:  " + gamesPlayed);
 
         StdDraw.show();
     }
