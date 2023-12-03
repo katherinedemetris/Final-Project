@@ -6,6 +6,11 @@ public class TicTacToeGame {
     private char[][] board;
     private char currentPlayer;
 
+    public String result;
+    public int compWins = 0;
+    public int playerWins = 0;
+    public int gamesPlayed = 0;
+
     // Constructor
     public TicTacToeGame(int boardSize) { //init game with specific board size and drawing of board, and that the first playr is O
         this.BOARD_SIZE = boardSize;
@@ -58,23 +63,7 @@ public class TicTacToeGame {
         }
 
         // printing out the title and the score board on the screen
-        int compWins = 0;
-        int playerWins = 0;
-        int gamesPlayed = 0;
-
-        Font font = new Font("Arial", Font.BOLD, 60);
-        StdDraw.setFont(font);
-        StdDraw.text(1.5, 3.5, "TIC TAC TOE"); // game title
-
-        Font font2 = new Font("Arial", Font.BOLD, 15); // scoreboard title
-        StdDraw.setFont(font2);
-        StdDraw.text(-0.25, -0.25, "SCOREBOARD");
-
-        Font font3 = new Font("Arial", Font.PLAIN, 10); // wins and games played
-        StdDraw.setFont(font3);
-        StdDraw.text(-0.35, -0.45, "Computer Wins: " + compWins);
-        StdDraw.text(-0.35, -0.65, "Player Wins:      " + playerWins);
-        StdDraw.text(-0.35, -0.85, "Games Played:  " + gamesPlayed);
+        scoreBoard();
 
         StdDraw.show();
     }
@@ -117,6 +106,15 @@ public class TicTacToeGame {
         return true;
     }
 
+    public void reset(){ // reset array
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[i][j] = '\0';
+            }
+        }
+    }
+
+
     // users move using input from mouse
     public void userMove() {
         if (StdDraw.isMousePressed()) {
@@ -131,6 +129,66 @@ public class TicTacToeGame {
                 switchPlayer();
             }
         }
+    }
+
+    public boolean isWinner(){
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (board[i][0] != '\0' && board[0][i] != '\0' && board[i][i] != '\0') {
+                if (board[i][0] == board[i][1] & board[i][0] == board[i][2]) { // check the columns
+                    if (board[0][i] == '0') {
+                        result = "0's WIN!";
+                        playerWins++;
+                    } else{
+                        result = "X's WIN!";
+                        compWins++;
+                    }
+                    gamesPlayed++; // increase game count
+                    return true;
+                }
+                if (board[0][i] == board[1][i] & board[0][i] == board[2][i]) {  // check the rows
+                    if (board[0][i] == '0') {
+                        result = "0's WIN!";
+                        playerWins++;
+                    } else{
+                        result = "X's WIN!";
+                        compWins++;
+                    }
+                    gamesPlayed++;
+                    return true;
+                }
+                if (board[0][0] == board[1][1] & board[1][1] == board[2][2]) { // check the diagonals
+                    if (board[0][i] == '0') {
+                        result = "0's WIN!";
+                        playerWins++;
+                        System.out.print(playerWins);
+                    } else{
+                        result = "X's WIN!";
+                        compWins++;
+                    }
+                    gamesPlayed++;
+                    return true;
+                }
+            }
+        }
+        result = "It'S A TIE!";
+        return false;
+    }
+
+    public void scoreBoard(){ // displaying the scoreboard and title
+
+        Font font = new Font("Arial", Font.BOLD, 60);
+        StdDraw.setFont(font);
+        StdDraw.text(1.5, 3.5, "TIC TAC TOE"); // game title
+
+        Font font2 = new Font("Arial", Font.BOLD, 15); // scoreboard title
+        StdDraw.setFont(font2);
+        StdDraw.text(-0.25, -0.25, "SCOREBOARD");
+
+        Font font3 = new Font("Arial", Font.PLAIN, 10); // wins and games played
+        StdDraw.setFont(font3);
+        StdDraw.text(-0.35, -0.45, "Computer Wins: " + compWins);
+        StdDraw.text(-0.35, -0.65, "Player Wins:      " + playerWins);
+        StdDraw.text(-0.35, -0.85, "Games Played:  " + gamesPlayed);
     }
 
     // computers moveds by generating random position until an empyt one is found on th e board
