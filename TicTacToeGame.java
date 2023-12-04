@@ -2,11 +2,11 @@ import java.awt.*;
 import java.util.Random;
 
 public class TicTacToeGame {
-    private final int BOARD_SIZE;
+    private int BOARD_SIZE;
     private char[][] board;
     private char currentPlayer;
 
-    public String result;
+    public String result = "IT'S A TIE!";
     public int compWins = 0;
     public int playerWins = 0;
     public int gamesPlayed = 0;
@@ -131,48 +131,63 @@ public class TicTacToeGame {
         }
     }
 
-    public boolean isWinner(){
+    public boolean isWinner() {
+        int count = 0;
+
         for (int i = 0; i < BOARD_SIZE; i++) {
-            if (board[i][0] != '\0' && board[0][i] != '\0' && board[i][i] != '\0') {
-                if (board[i][0] == board[i][1] & board[i][0] == board[i][2]) { // check the columns
-                    if (board[0][i] == '0') {
-                        result = "0's WIN!";
-                        playerWins++;
-                    } else{
-                        result = "X's WIN!";
-                        compWins++;
-                    }
-                    gamesPlayed++; // increase game count
-                    return true;
+            if (board[i][0] == board[i][1] && board[i][0] == board[i][2] && board[i][0] != '\0') { // check the columns
+                if (board[i][0] == '0') {
+                    result = "0's WIN!";
+                    playerWins++;
+                    count = 1; // add one so I can see if it is a tie at the end
+                } else {
+                    result = "X's WIN!";
+                    compWins++;
+                    count = 1;
                 }
-                if (board[0][i] == board[1][i] & board[0][i] == board[2][i]) {  // check the rows
-                    if (board[0][i] == '0') {
-                        result = "0's WIN!";
-                        playerWins++;
-                    } else{
-                        result = "X's WIN!";
-                        compWins++;
-                    }
-                    gamesPlayed++;
-                    return true;
-                }
-                if (board[0][0] == board[1][1] & board[1][1] == board[2][2]) { // check the diagonals
-                    if (board[0][i] == '0') {
-                        result = "0's WIN!";
-                        playerWins++;
-                        System.out.print(playerWins);
-                    } else{
-                        result = "X's WIN!";
-                        compWins++;
-                    }
-                    gamesPlayed++;
-                    return true;
-                }
+                gamesPlayed++; // increase game count
+                return true;
             }
         }
-        result = "It'S A TIE!";
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (board[0][i] == board[1][i] && board[0][i] == board[2][i] && board[0][i] != '\0') {  // check the rows
+                if (board[0][i] == '0') {
+                    result = "0's WIN!";
+                    playerWins++;
+                    count = 1;
+                } else {
+                    result = "X's WIN!";
+                    compWins++;
+                    count = 1;
+                }
+                gamesPlayed++;
+                return true;
+            }
+        }
+
+        if (((board[0][0] == board[1][1] && board[0][0] == board[2][2]) || (board[0][2] == board[1][1] && board[0][2] == board[2][0])) && board[1][1] != '\0')  { // check the diagonal
+            if (board[1][1] == '0') {
+                result = "0's WIN!";
+                playerWins++;
+                count = 1;
+            } else {
+                result = "X's WIN!";
+                compWins++;
+                count = 1;
+            }
+            gamesPlayed++;
+            return true;
+        }
+
+        if (count != 1 && isBoardFull()){ // check if a tie
+            result = "IT'S A TIE!";
+            return true;
+        }
+
         return false;
     }
+
 
     public void scoreBoard(){ // displaying the scoreboard and title
 

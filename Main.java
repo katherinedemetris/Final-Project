@@ -17,13 +17,14 @@ public class Main {
             } else {
                 game.computerMove(); // If it's  computer's turn call computerMove method
             }
-            StdDraw.pause(400); // make drawing of xs a little slower
+            StdDraw.pause(250); // make drawing of xs a little slower
         }
 
         Font font = new Font("Arial", Font.BOLD, 60);
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setFont(font);
         StdDraw.text(1.5, 1.5, game.result); // print who won
+
 
         System.out.print("\nPlay Again? (y/n) "); // ask user if they want to play again
         Scanner input = new Scanner(System.in);
@@ -41,12 +42,15 @@ public class Main {
                 } else {
                     game.computerMove(); // If it's  computer's turn call computerMove method
                 }
-                StdDraw.pause(400); // make drawing of xs a little slower
+                StdDraw.pause(250); // make drawing of xs a little slower
             }
 
             StdDraw.setPenColor(StdDraw.BLACK);
             StdDraw.setFont(font);
+
+            System.out.println(game.result);
             StdDraw.text(1.5, 1.5, game.result); // print who won
+
 
             System.out.print("\nPlay Again? (y/n) "); // ask question again
             playAgain = input.nextLine();
